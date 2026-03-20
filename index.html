@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小红书 - 秋日复古露营装备清单</title>
+  <style>
+    /* ========== 全局样式 ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* 页面外框 - 自适应 */
+    .page-wrapper {
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* 手机容器 - 内部1080，动态缩放 */
+    .phone-container {
+      width: 1080px;
+      height: 2405px;
+      background: #fff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transform-origin: top left;
+    }
+
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .scroll-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========== 顶部导航栏 ========== */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      padding: 28px 34px;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #f5f5f5;
+    }
+
+    .nav-back {
+      color: #333;
+      cursor: pointer;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-back svg {
+      width: 56px;
+      height: 56px;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      margin-left: 20px;
+    }
+
+    .nav-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffe0cc, #ffb899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .nav-nickname {
+      margin-left: 22px;
+      font-size: 42px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .follow-btn {
+      padding: 14px 44px;
+      border-radius: 56px;
+      border: 2px solid #ff2442;
+      background: transparent;
+      color: #ff2442;
+      font-size: 36px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .follow-btn.followed {
+      background: #f5f5f5;
+      border-color: #ddd;
+      color: #999;
+    }
+
+    .nav-share {
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-share svg {
+      width: 56px;
+      height: 56px;
+    }
+
+    /* ========== 单图区域（无轮播） ========== */
+    .image-section {
+      position: relative;
+      width: 100%;
+      height: 1200px;
+      background-image: url('场景1.png');
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.4s ease;
+    }
+
+    .image-section.switching {
+      opacity: 0;
+    }
+
+    /* 生成式种草画报标签 */
+    .image-tag {
+      position: absolute;
+      top: 34px;
+      left: 34px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 14px 26px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .image-tag-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .image-tag-brand img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    .image-tag-sep {
+      color: #ccc;
+      font-size: 30px;
+    }
+
+    .image-tag-label {
+      font-size: 30px;
+      color: #444;
+      font-weight: 500;
+    }
+
+    /* ========== 笔记气泡标注（标题形式） ========== */
+    .note-bubble {
+      position: absolute;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .bubble-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 300;
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .bubble-dot:hover {
+      transform: scale(1.1);
+    }
+
+    .bubble-card {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 12px 20px;
+      min-width: 0;
+      box-shadow: 0 3px 16px rgba(0, 0, 0, 0.1);
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .bubble-card.hidden {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .bubble-card-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    /* 气泡位置 */
+    /* 气泡1: 帐篷 - 右上方 */
+    .bubble-1 { top: 100px; right: 280px; }
+    .bubble-1 .bubble-card { top: 52px; right: 0; }
+
+    /* 气泡2: 露营推车 - 左中偏上 */
+    .bubble-2 { top: 500px; left: 180px; }
+    .bubble-2 .bubble-card { top: 52px; left: 0; }
+
+    /* 气泡3: 咖啡壶 - 左下方桌上 */
+    .bubble-3 { bottom: 380px; left: 100px; }
+    .bubble-3 .bubble-card { bottom: 52px; left: 0; }
+
+    /* 气泡4: 月亮椅 - 右下方 */
+    .bubble-4 { bottom: 150px; right: 260px; }
+    .bubble-4 .bubble-card { bottom: 52px; right: 0; }
+
+    /* 气泡dot在右侧布局 */
+    .note-bubble.dot-right {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-start;
+    }
+
+    .note-bubble.dot-right .bubble-card {
+      position: relative;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      margin-right: 12px;
+    }
+
+    .bubble-card-title a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .bubble-card-title a:active {
+      opacity: 0.7;
+    }
+
+    /* ========== 笔记内容 ========== */
+    .note-content {
+      padding: 40px 44px 16px;
+    }
+
+    .note-title {
+      font-size: 46px;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.4;
+      margin-bottom: 34px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note-body {
+      font-size: 40px;
+      line-height: 1.8;
+      color: #333;
+      letter-spacing: 0.5px;
+    }
+
+    .note-tags {
+      margin-top: 22px;
+    }
+
+    .note-tag {
+      color: #4a90d9;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    .note-tag:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== 一键购买按钮 ========== */
+    .buy-all-section {
+      padding: 0px 44px 30px;
+    }
+
+    .buy-all-btn {
+      width: 100%;
+      padding: 28px 0;
+      border: none;
+      border-radius: 50px;
+      background: #ff2442;
+      color: #fff;
+      font-size: 38px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      letter-spacing: 2px;
+    }
+
+    .buy-all-btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .buy-all-btn svg {
+      width: 42px;
+      height: 42px;
+      fill: #fff;
+    }
+
+    /* ========== 商品列表（4个+更多） ========== */
+    .products-section {
+      padding: 0 44px 44px;
+    }
+
+    .products-grid {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .product-card {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:active {
+      transform: scale(0.96);
+    }
+
+    .product-thumb {
+      width: 100%;
+      height: 160px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .product-name {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .product-price {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ff2442;
+    }
+
+    /* 更多按钮 */
+    .more-btn {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .more-btn:active {
+      transform: scale(0.96);
+    }
+
+    .more-btn-circle {
+      width: 100%;
+      height: 160px;
+      border-radius: 16px;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .more-btn-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .more-btn-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: #666;
+    }
+
+    .more-btn-text {
+      font-size: 28px;
+      color: #999;
+    }
+
+    /* ========== 底部栏（AI输入框 + 收藏） ========== */
+    .bottom-bar {
+      width: 1080px;
+      background: #fff;
+      border-top: 2px solid #eee;
+      display: flex;
+      align-items: center;
+      padding: 22px 34px;
+      z-index: 200;
+      gap: 20px;
+    }
+
+    .bottom-ai-input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 10px 10px 10px 30px;
+      background: #f7f7f7;
+      border-radius: 60px;
+      gap: 16px;
+    }
+
+    .bottom-ai-icon {
+      font-size: 44px;
+      flex-shrink: 0;
+    }
+
+    .bottom-ai-text-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 36px;
+      color: #333;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .bottom-ai-text-input::placeholder {
+      color: #bbb;
+    }
+
+    .bottom-voice-btn {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #ff2442;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .bottom-voice-btn:active {
+      transform: scale(0.9);
+    }
+
+    .bottom-voice-btn svg {
+      width: 34px;
+      height: 34px;
+      fill: #fff;
+    }
+
+    .bottom-regen-btn {
+      padding: 18px 36px;
+      border-radius: 52px;
+      border: 2px solid #ddd;
+      background: #fff;
+      font-size: 34px;
+      color: #333;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      flex-shrink: 0;
+    }
+
+    .bottom-regen-btn:active {
+      background: #f0f0f0;
+      transform: scale(0.96);
+    }
+
+    .bottom-fav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      user-select: none;
+      flex-shrink: 0;
+      padding: 0 10px;
+    }
+
+    .bottom-fav-item:active {
+      transform: scale(0.9);
+    }
+
+    .fav-icon {
+      font-size: 56px;
+      transition: all 0.3s ease;
+    }
+
+    .fav-icon.favorited {
+      color: #ffc107;
+    }
+
+    .fav-count {
+      font-size: 28px;
+      color: #666;
+    }
+
+    /* ========== Toast 提示 ========== */
+    .toast {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 13px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* ========== 收藏动画 ========== */
+    @keyframes favAnim {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .fav-icon.animate {
+      animation: favAnim 0.4s ease;
+    }
+
+    /* ========== 笔记浮层 iframe 模态框 ========== */
+    .note-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1080px;
+      height: 2405px;
+      z-index: 500;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .note-overlay.visible {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .note-overlay-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .note-overlay-panel {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 85%;
+      background: #fff;
+      border-radius: 36px 36px 0 0;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+      overflow: hidden;
+    }
+
+    .note-overlay.visible .note-overlay-panel {
+      transform: translateY(0);
+    }
+
+    .note-overlay-header {
+      display: flex;
+      align-items: center;
+      padding: 28px 34px;
+      background: #fff;
+      border-bottom: 2px solid #f0f0f0;
+      flex-shrink: 0;
+    }
+
+    .note-overlay-close {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .note-overlay-close:active {
+      background: #e8e8e8;
+    }
+
+    .note-overlay-close svg {
+      width: 36px;
+      height: 36px;
+      stroke: #666;
+    }
+
+    .note-overlay-title {
+      flex: 1;
+      text-align: center;
+      font-size: 38px;
+      font-weight: 600;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 20px;
+    }
+
+    .note-overlay-open {
+      padding: 14px 32px;
+      border: 2px solid #ddd;
+      border-radius: 44px;
+      background: #fff;
+      font-size: 30px;
+      color: #333;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .note-overlay-open:active {
+      background: #f5f5f5;
+    }
+
+    .note-overlay-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 414px;
+      height: 38.33%;
+      border: none;
+      background: #fff;
+      transform: scale(2.6087);
+      transform-origin: top left;
+    }
+
+    .note-overlay-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+      color: #999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .note-overlay-spinner {
+      width: 64px;
+      height: 64px;
+      border: 5px solid #f0f0f0;
+      border-top: 5px solid #ff2442;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+  <div class="phone-container">
+    <div class="scroll-content">
+
+    <!-- ===== 顶部导航栏 ===== -->
+    <header class="top-nav">
+      <div class="nav-back" onclick="window.location.href='feed.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
+      <div class="nav-user">
+        <div class="nav-avatar"><img src="头像.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+        <span class="nav-nickname">AI生活薯</span>
+      </div>
+      <div class="nav-actions">
+        <button class="follow-btn" id="followBtn" onclick="toggleFollow()">关注</button>
+        <div class="nav-share" onclick="showToast('分享功能')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7"></path>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== 单张图片（无轮播） ===== -->
+    <section class="image-section" id="imageSection">
+      <!-- 生成式种草画报标签 -->
+      <div class="image-tag">
+        <span class="image-tag-brand"><img src="小红书logo.png" alt="小红书"></span>
+        <span class="image-tag-sep">|</span>
+        <span class="image-tag-label">生成式种草画报</span>
+      </div>
+
+      <!-- 笔记气泡1：帐篷 - 右上方 -->
+      <div class="note-bubble bubble-1" id="bubble1">
+        <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
+        <div class="bubble-card" id="tentBubbleCard">
+          <div class="bubble-card-title" id="tentBubbleTitle">小家庭露营帐篷选这个</div>
+        </div>
+      </div>
+
+      <!-- 笔记气泡2：露营推车 - 左中偏上 -->
+      <div class="note-bubble bubble-2" id="bubble2">
+        <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
+        <div class="bubble-card" id="cartBubbleCard">
+          <div class="bubble-card-title">说实话，露营推车怎么选？</div>
+        </div>
+      </div>
+
+      <!-- 笔记气泡3：咖啡壶 - 左下方桌上 -->
+      <div class="note-bubble bubble-3" id="bubble3">
+        <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
+        <div class="bubble-card" id="coffeeBubbleCard">
+          <div class="bubble-card-title">摩卡壶的正确打开方式—粉多粗？</div>
+        </div>
+      </div>
+
+      <!-- 笔记气泡4：月亮椅 - 右下方 -->
+      <div class="note-bubble bubble-4" id="bubble4">
+        <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
+        <div class="bubble-card" id="chairBubbleCard">
+          <div class="bubble-card-title">牧高笛米白色月亮椅已到就位！</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 笔记标题与正文 ===== -->
+    <div class="note-content">
+      <h1 class="note-title">秋日复古露营装备清单 | 一键生成我的理想营地</h1>
+
+      <div class="note-body">
+        <p>秋天就该去露营！帐篷、折叠椅、摩卡壶、露营车，这一套复古氛围感直接拉满，周末短途出片神器，照着买就对了。</p>
+        <p style="margin-top:16px;">最喜欢傍晚支好帐篷煮一壶咖啡的感觉，木质家具搭配暖色调露营毯，拍出来每一张都是大片。</p>
+
+      </div>
+    </div>
+
+    <!-- ===== 商品列表（4个 + 更多按钮） ===== -->
+    <section class="products-section">
+      <div class="products-grid">
+        <!-- 月亮椅 -->
+        <div class="product-card" onclick="showToast('查看月亮椅详情')">
+          <div class="product-thumb" style="background-image: url('椅子.webp');"></div>
+          <div class="product-name">牧高笛户外折叠椅月影白</div>
+          <div class="product-price">¥113.6</div>
+        </div>
+
+        <!-- 咖啡壶 -->
+        <div class="product-card" onclick="showToast('查看咖啡壶详情')">
+          <div class="product-thumb" style="background-image: url('咖啡壶.webp');"></div>
+          <div class="product-name">Mongdio摩卡壶4件套</div>
+          <div class="product-price">¥183</div>
+        </div>
+
+        <!-- 露营推车 -->
+        <div class="product-card" onclick="showToast('查看露营推车详情')">
+          <div class="product-thumb" style="background-image: url('露营推车.webp');"></div>
+          <div class="product-name">牧高笛星际露营车宽轮</div>
+          <div class="product-price">¥399</div>
+        </div>
+
+        <!-- 帐篷 -->
+        <div class="product-card" id="tentProduct" onclick="showToast('查看帐篷详情')">
+          <div class="product-thumb" id="tentThumb" style="background-image: url('一开始的帐篷.webp');"></div>
+          <div class="product-name" id="tentName">牧高笛零动155帐篷</div>
+          <div class="product-price" id="tentPrice">¥549</div>
+        </div>
+
+        <!-- 更多按钮 -->
+        <div class="more-btn" onclick="window.location.href='market.html'">
+          <div class="more-btn-circle">
+            <div class="more-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 6 15 12 9 18"></polyline>
+              </svg>
+            </div>
+            <span class="more-btn-text">更多</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 购买同款按钮 ===== -->
+    <div class="buy-all-section">
+      <button class="buy-all-btn" onclick="window.location.href='checkout.html?scene=' + currentScene">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="3" y1="6" x2="21" y2="6" fill="none" stroke="#fff" stroke-width="2"/>
+          <path d="M16 10a4 4 0 0 1-8 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        购买同款
+      </button>
+    </div>
+
+    </div><!-- end scroll-content -->
+
+    <!-- ===== 底部栏（AI输入框 + 收藏） ===== -->
+    <footer class="bottom-bar">
+      <div class="bottom-ai-input">
+        <span class="bottom-ai-icon">&#10024;</span>
+        <input type="text" class="bottom-ai-text-input" id="aiInput" placeholder='我需要适合4人的帐篷' />
+        <button class="bottom-voice-btn" onclick="showToast('语音输入功能')">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="19" x2="12" y2="23" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <button class="bottom-regen-btn" onclick="handleRegen()">重新生成</button>
+      <div class="bottom-fav-item" onclick="toggleFavorite()">
+        <span class="fav-icon" id="favIcon">&#9734;</span>
+        <span class="fav-count" id="favCount">1</span>
+      </div>
+    </footer>
+
+    <!-- ===== 笔记浮层 ===== -->
+    <div class="note-overlay" id="noteOverlay">
+      <div class="note-overlay-bg" onclick="closeNoteOverlay()"></div>
+      <div class="note-overlay-panel">
+        <div class="note-overlay-header">
+          <div class="note-overlay-close" onclick="closeNoteOverlay()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </div>
+          <div class="note-overlay-title" id="noteOverlayTitle">笔记详情</div>
+          <button class="note-overlay-open" id="noteOverlayOpenBtn" onclick="openNoteExternal()">打开</button>
+        </div>
+        <div style="flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;">
+          <div class="note-overlay-loading" id="noteOverlayLoading">
+            <div class="note-overlay-spinner"></div>
+            <span>加载中...</span>
+          </div>
+          <iframe class="note-overlay-iframe" id="noteOverlayIframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== Toast 提示 ===== -->
+  <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ========== 场景配置数据 ==========
+    const sceneData = {
+      scene1: {
+        image: '场景1.png',
+        bubbles: {
+          bubble1: { top: '100px', bottom: 'auto', left: 'auto', right: '280px' },
+          bubble2: { top: '500px', bottom: 'auto', left: '180px', right: 'auto' },
+          bubble3: { top: 'auto', bottom: '380px', left: '100px', right: 'auto' },
+          bubble4: { top: 'auto', bottom: '150px', left: 'auto', right: '260px' }
+        },
+        tent: {
+          bubbleTitle: '小家庭露营帐篷选这个',
+          bubbleLink: 'https://www.xiaohongshu.com/explore/67ee4b25000000001d026ec0?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBV5AeOCygTdc-TryOP-H-KvJ2XS4-b6AVI2tx_sJjOTM=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979454&share_id=e7bd68ccaaa64815a1b3cfb1b8676459&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink',
+          productThumb: '一开始的帐篷.webp',
+          productName: '牧高笛零动155帐篷',
+          productPrice: '¥549'
+        }
+      },
+      scene2: {
+        image: '场景2.png',
+        bubbles: {
+          bubble1: { top: '480px', bottom: 'auto', left: 'auto', right: '300px' },
+          bubble2: { top: 'auto', bottom: '340px', left: '120px', right: 'auto' },
+          bubble3: { top: 'auto', bottom: '300px', left: '580px', right: 'auto' },
+          bubble4: { top: 'auto', bottom: '360px', left: '520px', right: 'auto' }
+        },
+        tent: {
+          bubbleTitle: '牧高笛假日星空真实使用感受',
+          bubbleLink: 'https://www.xiaohongshu.com/explore/64318708000000000800c217?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB3-5Ms-5uBF4It4Eyx1e6IOIgXD2e5qUuATaAZyQvxdM=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773998019&share_id=1fbda4e15f424f91bbe7e2755a88682e&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink',
+          productThumb: '修改后的帐篷.webp',
+          productName: '牧高笛假日星空家庭帐篷',
+          productPrice: '¥4999'
+        }
+      }
+    };
+
+    let currentScene = 'scene1';
+
+    // ========== 场景切换 ==========
+    function switchScene(sceneName) {
+      if (currentScene === sceneName) return;
+      const data = sceneData[sceneName];
+      if (!data) return;
+
+      const section = document.getElementById('imageSection');
+
+      // 淡出
+      section.classList.add('switching');
+
+      setTimeout(() => {
+        // 切换背景图
+        section.style.backgroundImage = "url('" + data.image + "')";
+
+        // 更新气泡位置
+        ['bubble1', 'bubble2', 'bubble3', 'bubble4'].forEach(id => {
+          const el = document.getElementById(id);
+          const pos = data.bubbles[id];
+          el.style.top = pos.top;
+          el.style.bottom = pos.bottom;
+          el.style.left = pos.left;
+          el.style.right = pos.right;
+        });
+
+        // 更新摩卡壶气泡dot位置（场景2在右侧）
+        const coffeeBubble = document.getElementById('bubble3');
+        if (sceneName === 'scene2') {
+          coffeeBubble.classList.add('dot-right');
+        } else {
+          coffeeBubble.classList.remove('dot-right');
+        }
+
+        // 更新帐篷气泡标题和链接
+        document.getElementById('tentBubbleTitle').textContent = data.tent.bubbleTitle;
+        bubbleLinks.tent.title = data.tent.bubbleTitle;
+        bubbleLinks.tent.url = data.tent.bubbleLink;
+        document.getElementById('tentBubbleCard').onclick = function() {
+          openNoteOverlay('tent');
+        };
+
+        // 更新帐篷商品卡片
+        document.getElementById('tentThumb').style.backgroundImage = "url('" + data.tent.productThumb + "')";
+        document.getElementById('tentName').textContent = data.tent.productName;
+        document.getElementById('tentPrice').textContent = data.tent.productPrice;
+
+        currentScene = sceneName;
+
+        // 淡入
+        section.classList.remove('switching');
+      }, 400);
+    }
+
+    // ========== 重新生成按钮处理 ==========
+    function handleRegen() {
+      const input = document.getElementById('aiInput');
+      const text = input.value.trim();
+      const keywords = ['更大', '天幕', '超大', '适合4人的帐篷', '适合四人的帐篷', '3人', '4人', '5人'];
+      const matched = keywords.some(kw => text.includes(kw));
+
+      if (matched) {
+        showToast('正在重新生成...');
+        setTimeout(() => {
+          switchScene('scene2');
+          showToast('已切换为大型露营场景');
+        }, 800);
+      } else {
+        showToast('正在重新生成...');
+      }
+    }
+
+    // ========== 笔记气泡切换 ==========
+    function toggleBubble(el) {
+      const card = el.querySelector('.bubble-card');
+      const dot = el.querySelector('.bubble-dot');
+      card.classList.toggle('hidden');
+      dot.textContent = card.classList.contains('hidden') ? '+' : '\u2212';
+    }
+
+    // ========== 笔记浮层相关 ==========
+    let currentNoteUrl = '';
+
+    const bubbleLinks = {
+      tent: {
+        title: '小家庭露营帐篷选这个',
+        url: sceneData.scene1.tent.bubbleLink
+      },
+      cart: {
+        title: '说实话，露营推车怎么选？',
+        url: 'https://www.xiaohongshu.com/explore/6612588f000000001a012d82?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB0WWLTW0MuICv90aqjE2dEZapEXviGIJpec2NBaf5llc=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979442&share_id=180298db2a514741ac74afd329a57c5c&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink'
+      },
+      coffee: {
+        title: '摩卡壶的正确打开方式—粉多粗？',
+        url: 'https://www.xiaohongshu.com/explore/69b2b32c000000002800b47c?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CBVrIo23JbkC5UnCMAERnGbwiUAx7stFYfE6xm0g4fs9c=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979412&share_id=68886b88d5db477290c55763b4b477cc&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink'
+      },
+      chair: {
+        title: '牧高笛米白色月亮椅已到就位！',
+        url: 'https://www.xiaohongshu.com/explore/6368e07f0000000008011e1d?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB5kzYZboD4xD4ZM5mTGGJRM0I_LbYjAyIHD6NHsGpBGk=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979389&share_id=0943bf540dd24ef9bc8220ba9c34b968&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink'
+      }
+    };
+
+    function openNoteOverlay(key) {
+      const info = bubbleLinks[key];
+      if (!info) return;
+
+      currentNoteUrl = info.url;
+      document.getElementById('noteOverlayTitle').textContent = info.title;
+
+      const iframe = document.getElementById('noteOverlayIframe');
+      const loading = document.getElementById('noteOverlayLoading');
+      loading.style.display = 'flex';
+      iframe.style.opacity = '0';
+      iframe.src = info.url;
+
+      iframe.onload = function() {
+        loading.style.display = 'none';
+        iframe.style.opacity = '1';
+      };
+
+      // 超时兜底：3秒后隐藏 loading
+      setTimeout(() => {
+        loading.style.display = 'none';
+        iframe.style.opacity = '1';
+      }, 3000);
+
+      const overlay = document.getElementById('noteOverlay');
+      overlay.classList.add('visible');
+    }
+
+    function closeNoteOverlay() {
+      const overlay = document.getElementById('noteOverlay');
+      overlay.classList.remove('visible');
+      // 延迟清除 iframe 避免闪烁
+      setTimeout(() => {
+        document.getElementById('noteOverlayIframe').src = '';
+      }, 350);
+    }
+
+    function openNoteExternal() {
+      if (currentNoteUrl) {
+        window.open(currentNoteUrl, '_blank');
+      }
+    }
+
+    // ========== 初始化气泡链接 ==========
+    document.getElementById('tentBubbleCard').onclick = function() {
+      openNoteOverlay('tent');
+    };
+    document.getElementById('cartBubbleCard').onclick = function() {
+      openNoteOverlay('cart');
+    };
+    document.getElementById('coffeeBubbleCard').onclick = function() {
+      openNoteOverlay('coffee');
+    };
+    document.getElementById('chairBubbleCard').onclick = function() {
+      openNoteOverlay('chair');
+    };
+
+    // ========== 关注按钮 ==========
+    let isFollowed = false;
+    function toggleFollow() {
+      isFollowed = !isFollowed;
+      const btn = document.getElementById('followBtn');
+      if (isFollowed) {
+        btn.textContent = '已关注';
+        btn.classList.add('followed');
+        showToast('已关注 AI生活薯');
+      } else {
+        btn.textContent = '关注';
+        btn.classList.remove('followed');
+        showToast('已取消关注');
+      }
+    }
+
+    // ========== 收藏 ==========
+    let isFavorited = false;
+    let favCount = 1;
+    function toggleFavorite() {
+      isFavorited = !isFavorited;
+      favCount += isFavorited ? 1 : -1;
+      const icon = document.getElementById('favIcon');
+      const count = document.getElementById('favCount');
+
+      if (isFavorited) {
+        icon.innerHTML = '&#9733;';
+        icon.classList.add('favorited');
+      } else {
+        icon.innerHTML = '&#9734;';
+        icon.classList.remove('favorited');
+      }
+
+      // 播放动画
+      icon.classList.remove('animate');
+      void icon.offsetWidth;
+      icon.classList.add('animate');
+
+      count.textContent = favCount;
+    }
+
+    // ========== Toast 提示 ==========
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // ========== 自适应布局 ==========
+    function updateLayout() {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scale = Math.min(vw / 1080, vh / 2405);
+      var wrapper = document.querySelector('.page-wrapper');
+      var container = document.querySelector('.phone-container');
+      wrapper.style.width = Math.floor(1080 * scale) + 'px';
+      wrapper.style.height = Math.floor(2405 * scale) + 'px';
+      container.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', updateLayout);
+    updateLayout();
+  </script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小红书 - 牧高笛露营</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .phone-container {
+      width: 1080px;
+      height: 2405px;
+      background: #f5f5f5;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transform-origin: top left;
+    }
+
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .scroll-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========== 顶部搜索栏 ========== */
+    .search-header {
+      display: flex;
+      align-items: center;
+      padding: 28px 34px;
+      background: #fff;
+      z-index: 100;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .search-back {
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .search-back svg {
+      width: 52px;
+      height: 52px;
+    }
+
+    .search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #f5f5f5;
+      border-radius: 50px;
+      padding: 18px 30px;
+      gap: 12px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 38px;
+      color: #333;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .search-box .clear-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .search-box .clear-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: #fff;
+    }
+
+    .search-btn {
+      font-size: 40px;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 10px;
+    }
+
+    /* ========== 标签栏 ========== */
+    .type-tabs {
+      display: flex;
+      align-items: center;
+      padding: 20px 34px 0;
+      background: #fff;
+      gap: 44px;
+      flex-shrink: 0;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .type-tab {
+      font-size: 38px;
+      color: #999;
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 18px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .type-tab.active {
+      color: #333;
+      font-weight: 700;
+      font-size: 42px;
+    }
+
+    .type-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 6px;
+      background: #ff2442;
+      border-radius: 3px;
+    }
+
+    .type-tab-filter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .type-tab-filter svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .tab-ai-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* ========== 瀑布流商品列表 ========== */
+    .products-waterfall {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .waterfall-col {
+      width: calc(50% - 8px);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .product-card:active {
+      transform: scale(0.98);
+    }
+
+    .product-img {
+      width: 100%;
+      background-size: cover;
+      background-position: center top;
+      position: relative;
+    }
+
+    .product-img-brand {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .product-img-brand-icon {
+      width: 28px;
+      height: 28px;
+      background: #3a5e3a;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-img-brand-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #3a5e3a;
+      line-height: 1.1;
+    }
+
+    .product-body {
+      padding: 20px 22px 24px;
+    }
+
+    .product-review {
+      font-size: 28px;
+      color: #e8a040;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-style: italic;
+    }
+
+    .product-name {
+      font-size: 34px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 26px;
+      color: #999;
+    }
+
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .product-price-symbol {
+      font-size: 26px;
+      color: #ff2442;
+      font-weight: 700;
+    }
+
+    .product-price-value {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ff2442;
+      line-height: 1;
+    }
+
+    .product-sold {
+      font-size: 26px;
+      color: #999;
+      margin-left: 4px;
+    }
+
+    .product-shop {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid #f5f5f5;
+    }
+
+    .shop-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .shop-icon-mobi {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #e8eae6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #3a5e3a;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .shop-name {
+      font-size: 28px;
+      color: #666;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .shop-arrow {
+      font-size: 28px;
+      color: #ccc;
+      flex-shrink: 0;
+    }
+
+    /* 搭配推荐区 */
+    .recommend-bar {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      background: #faf8f5;
+      gap: 10px;
+    }
+
+    .recommend-label {
+      font-size: 22px;
+      color: #fff;
+      background: #333;
+      padding: 6px 14px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .recommend-items {
+      display: flex;
+      gap: 10px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .recommend-item {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .recommend-trail {
+      font-size: 22px;
+      color: #999;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ========== 购物车浮动按钮 ========== */
+    .cart-float {
+      position: absolute;
+      bottom: 100px;
+      right: 40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 300;
+      transition: transform 0.2s;
+    }
+
+    .cart-float:active {
+      transform: scale(0.9);
+    }
+
+    .cart-float svg {
+      width: 56px;
+      height: 56px;
+      stroke: #333;
+    }
+
+    /* ========== MOBI GARDEN brand logo ========== */
+    .mobi-logo {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .mobi-logo-square {
+      width: 24px;
+      height: 24px;
+      background: #3a5e3a;
+      border-radius: 3px;
+    }
+
+    .mobi-logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #3a5e3a;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    /* ========== Toast ========== */
+    .toast {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 13px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+  <div class="phone-container">
+
+    <!-- ===== 顶部搜索栏 ===== -->
+    <header class="search-header">
+      <div class="search-back" onclick="window.location.href='index.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
+      <div class="search-box">
+        <input type="text" value="牧高笛露营" />
+        <div class="clear-btn" onclick="this.previousElementSibling.value=''">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </div>
+      </div>
+      <div class="search-btn" onclick="showToast('搜索')">搜索</div>
+    </header>
+
+    <!-- ===== 标签栏 ===== -->
+    <div class="type-tabs">
+      <div class="type-tab">
+        <span class="type-tab-filter">全部
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="7" y1="12" x2="17" y2="12"></line>
+            <line x1="10" y1="18" x2="14" y2="18"></line>
+          </svg>
+        </span>
+      </div>
+      <div class="type-tab">用户</div>
+      <div class="type-tab active">商品</div>
+      <div class="type-tab">讨论</div>
+      <div class="type-tab">图片</div>
+      <div class="type-tab">
+        <svg class="tab-ai-icon" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+        问一问
+      </div>
+    </div>
+
+    <div class="scroll-content">
+    <!-- ===== 瀑布流商品列表 ===== -->
+    <div class="products-waterfall">
+
+      <!-- 左列 -->
+      <div class="waterfall-col">
+
+        <!-- 商品1: 零动155帐篷 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 520px; background-image: url('一开始的帐篷.webp');"></div>
+          <div class="product-body">
+            <div class="product-name">牧高笛·【杜海涛专属】牧</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">549</span>
+              <span class="product-sold">已售2</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon-mobi">&#9978;</div>
+              <span class="shop-name">牧高笛Mob…rden旗舰店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品3: 俊庭520天幕 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 560px; background-image: url('520.webp');"></div>
+          <div class="product-body">
+            <div class="product-review">"质量真的很不错，幸亏没买..."</div>
+            <div class="product-name">牧高笛·牧高笛·俊庭520</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">249</span>
+              <span class="product-sold">已售17</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon-mobi">&#9978;</div>
+              <span class="shop-name">牧高笛Mob…rden旗舰店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品5: 月亮椅 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 520px; background-image: url('椅子.webp');"></div>
+          <div class="product-body">
+            <div class="product-name">牧高笛·户外折叠椅月影白</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">113</span>
+              <span class="product-sold">已售86</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon-mobi">&#9978;</div>
+              <span class="shop-name">牧高笛Mob…rden旗舰店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 右列 -->
+      <div class="waterfall-col">
+
+        <!-- 商品2: 冷山UL帐篷 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 480px; background-image: url('UL帐篷.webp');"></div>
+          <div class="recommend-bar">
+            <span class="recommend-label">搭配推荐</span>
+            <div class="recommend-items">
+              <div class="recommend-item" style="background: linear-gradient(135deg,#e8a060,#d4854a);"></div>
+              <div class="recommend-item" style="background: linear-gradient(135deg,#6a7a5a,#4a5a3a);"></div>
+              <div class="recommend-item" style="background: linear-gradient(135deg,#c4a882,#a08868);"></div>
+              <div class="recommend-item" style="background: linear-gradient(135deg,#8a9a7a,#6a7a5a);"></div>
+            </div>
+            <span class="recommend-trail">→</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">牧高笛·冷山UL帐篷登山徒</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+              <span>100+人加购</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">630</span>
+              <span class="product-sold">已售24</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon" style="background:#f0ebe4;">&#129397;</div>
+              <span class="shop-name">懒人露营白叔叔的店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品4: 桌面烧烤炉 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 520px; background-image: url('烧烤炉.webp');"></div>
+          <div class="product-body">
+            <div class="product-name">牧高笛·牧高笛小型桌面烧</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">399</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon-mobi">&#9978;</div>
+              <span class="shop-name">牧高笛Mob…rden旗舰店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商品6: 冷山双层帐 -->
+        <div class="product-card" onclick="showToast('查看商品详情')">
+          <div class="product-img" style="height: 540px; background-image: url('双层帐.webp');">
+          </div>
+          <div class="product-body">
+            <div class="product-name">牧高笛·冷山防水防渗双层帐</div>
+            <div class="product-tags">
+              <span>退货包运费</span>
+              <span>50+人加购</span>
+            </div>
+            <div class="product-price-row">
+              <span class="product-price-symbol">¥</span>
+              <span class="product-price-value">780</span>
+              <span class="product-sold">已售11</span>
+            </div>
+            <div class="product-shop">
+              <div class="shop-icon-mobi">&#9978;</div>
+              <span class="shop-name">牧高笛Mob…rden旗舰店</span>
+              <span class="shop-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    </div><!-- end scroll-content -->
+
+    <!-- ===== 购物车浮动按钮 ===== -->
+    <div class="cart-float" onclick="showToast('打开购物车')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ========== Toast ==========
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // ========== 自适应布局 ==========
+    function updateLayout() {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scale = Math.min(vw / 1080, vh / 2405);
+      var wrapper = document.querySelector('.page-wrapper');
+      var container = document.querySelector('.phone-container');
+      wrapper.style.width = Math.floor(1080 * scale) + 'px';
+      wrapper.style.height = Math.floor(2405 * scale) + 'px';
+      container.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', updateLayout);
+    updateLayout();
+  </script>
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小红书 - 购物车</title>
+  <style>
+    /* ========== 全局样式 ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .phone-container {
+      width: 1080px;
+      height: 2405px;
+      background: #f5f5f5;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transform-origin: top left;
+    }
+
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .scroll-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ========== 顶部导航栏 ========== */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      padding: 28px 34px;
+      background: #fff;
+      z-index: 100;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .nav-back {
+      color: #333;
+      cursor: pointer;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .nav-back svg {
+      width: 56px;
+      height: 56px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-left: 20px;
+      flex: 1;
+    }
+
+    .nav-tab {
+      font-size: 44px;
+      color: #999;
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 14px;
+      white-space: nowrap;
+    }
+
+    .nav-tab.active {
+      font-size: 48px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .nav-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 6px;
+      background: #ff2442;
+      border-radius: 3px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      flex-shrink: 0;
+    }
+
+    .nav-right svg {
+      width: 52px;
+      height: 52px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .nav-right-text {
+      font-size: 40px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    /* ========== 筛选标签 ========== */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 24px 34px;
+      background: #fff;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .filter-tab {
+      padding: 16px 36px;
+      font-size: 36px;
+      color: #666;
+      cursor: pointer;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-tab.active {
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* ========== 通用勾选框 ========== */
+    .cb {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      background: #fff;
+      transition: all 0.2s;
+    }
+
+    .cb.checked {
+      background: #ff2442;
+      border-color: #ff2442;
+    }
+
+    .cb.checked::after {
+      content: '';
+      width: 20px;
+      height: 10px;
+      border-left: 3px solid #fff;
+      border-bottom: 3px solid #fff;
+      transform: rotate(-45deg) translateY(-2px);
+    }
+
+    /* ========== 商品列表 ========== */
+    .cart-list {
+      padding: 0;
+    }
+
+    .shop-group {
+      background: #fff;
+      margin-bottom: 20px;
+    }
+
+    .shop-header {
+      display: flex;
+      align-items: center;
+      padding: 30px 34px 20px;
+      gap: 18px;
+    }
+
+    .shop-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .shop-name {
+      font-size: 38px;
+      font-weight: 600;
+      color: #333;
+      flex: 1;
+    }
+
+    .shop-name-arrow {
+      font-size: 32px;
+      color: #999;
+      margin-left: 4px;
+    }
+
+    .shop-coupon-btn {
+      padding: 10px 28px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 32px;
+      color: #666;
+      background: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* 商品项 */
+    .cart-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 20px 34px 28px;
+      gap: 18px;
+    }
+
+    .cart-item .cb {
+      margin-top: 50px;
+    }
+
+    .item-image {
+      width: 240px;
+      height: 240px;
+      border-radius: 16px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item-image-badge {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      font-size: 26px;
+      padding: 6px 16px;
+      border-top-right-radius: 10px;
+    }
+
+    .item-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-name {
+      font-size: 36px;
+      color: #333;
+      font-weight: 500;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .item-variant {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f5f5f5;
+      padding: 8px 16px;
+      border-radius: 8px;
+      align-self: flex-start;
+    }
+
+    .item-variant-text {
+      font-size: 30px;
+      color: #999;
+      max-width: 380px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-variant-arrow {
+      font-size: 24px;
+      color: #ccc;
+    }
+
+    .item-tags {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .item-tag {
+      font-size: 28px;
+      color: #ff2442;
+      white-space: nowrap;
+    }
+
+    .item-tag-badge {
+      font-size: 26px;
+      color: #ff2442;
+      background: #fff0f0;
+      padding: 4px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .item-price-label {
+      font-size: 28px;
+      color: #999;
+    }
+
+    .item-price {
+      font-size: 44px;
+      font-weight: 700;
+      color: #ff2442;
+    }
+
+    .item-price-decimal {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ff2442;
+    }
+
+    .item-price-original {
+      font-size: 30px;
+      color: #ccc;
+      text-decoration: line-through;
+    }
+
+    .item-quantity {
+      font-size: 30px;
+      color: #999;
+      flex-shrink: 0;
+      padding: 8px 20px;
+      border: 2px solid #eee;
+      border-radius: 8px;
+    }
+
+    .item-low-price {
+      font-size: 28px;
+      color: #ff2442;
+      font-weight: 500;
+    }
+
+    .item-price-qty-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .item-price-group {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    /* ========== 底部栏 ========== */
+    .bottom-bar {
+      width: 1080px;
+      background: #fff;
+      border-top: 2px solid #eee;
+      display: flex;
+      align-items: center;
+      padding: 28px 34px;
+      z-index: 200;
+    }
+
+    .bottom-select-all {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .bottom-select-text {
+      font-size: 36px;
+      color: #333;
+    }
+
+    .bottom-total-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: 24px;
+    }
+
+    .bottom-total-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .bottom-total-label {
+      font-size: 34px;
+      color: #333;
+    }
+
+    .bottom-total-price {
+      font-size: 42px;
+      font-weight: 700;
+      color: #ff2442;
+    }
+
+    .bottom-total-decimal {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ff2442;
+    }
+
+    .bottom-discount-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bottom-discount-text {
+      font-size: 28px;
+      color: #ff2442;
+    }
+
+    .bottom-detail-text {
+      font-size: 28px;
+      color: #ff2442;
+      cursor: pointer;
+    }
+
+    .bottom-detail-arrow {
+      font-size: 22px;
+      color: #ff2442;
+    }
+
+    .bottom-checkout-btn {
+      padding: 28px 56px;
+      background: #ff2442;
+      border: none;
+      border-radius: 52px;
+      color: #fff;
+      font-size: 38px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .bottom-checkout-btn:active {
+      transform: scale(0.96);
+      opacity: 0.9;
+    }
+
+    /* ========== Toast ========== */
+    .toast {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 13px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .shop-divider {
+      height: 2px;
+      background: #f0f0f0;
+      margin: 0 34px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+  <div class="phone-container">
+
+    <!-- ===== 顶部导航栏 ===== -->
+    <header class="top-nav">
+      <div class="nav-back" onclick="window.location.href='index.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </div>
+      <div class="nav-tabs">
+        <span class="nav-tab active">购物车</span>
+        <span class="nav-tab" onclick="showToast('心愿单')">心愿单</span>
+      </div>
+      <div class="nav-right">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="showToast('搜索')">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span class="nav-right-text" onclick="showToast('管理')">管理</span>
+      </div>
+    </header>
+
+    <!-- ===== 筛选标签 ===== -->
+    <div class="filter-bar">
+      <span class="filter-tab active">全部(5)</span>
+      <span class="filter-tab">春上新(1)</span>
+      <span class="filter-tab">平台券(3)</span>
+      <span class="filter-tab">降价(2)</span>
+    </div>
+
+    <div class="scroll-content">
+    <div class="cart-list">
+
+      <!-- ===== 店铺1：cgediao旗舰店 ===== -->
+      <div class="shop-group" data-shop="shop1">
+        <div class="shop-header">
+          <div class="cb checked" data-role="shop" data-shop="shop1" onclick="toggleShop(this)"></div>
+          <div class="shop-icon" style="background:#f0ebe4;font-size:22px;">&#127890;</div>
+          <span class="shop-name">cgediao旗舰店 <span class="shop-name-arrow">&#8250;</span></span>
+          <button class="shop-coupon-btn" onclick="showToast('领券成功')">领券</button>
+        </div>
+
+        <!-- 帽子 -->
+        <div class="cart-item">
+          <div class="cb checked" data-role="item" data-shop="shop1" data-price="36" data-original="36" onclick="toggleItem(this)"></div>
+          <div class="item-image" style="background-image: url('帽子.webp');"></div>
+          <div class="item-info">
+            <div class="item-name">cgediao 西部牛仔帽女夏季户外露营登山渔夫帽</div>
+            <div class="item-variant">
+              <span class="item-variant-text">#914-棕色（54-59cm）</span>
+              <span class="item-variant-arrow">&#8250;</span>
+            </div>
+            <div class="item-tags">
+              <span class="item-tag" style="color:#999;">退货包运费</span>
+            </div>
+            <div class="item-price-qty-row">
+              <div class="item-price-group">
+                <span class="item-price-label">到手价</span>
+                <span class="item-price">¥36</span><span class="item-price-decimal"></span>
+              </div>
+              <span class="item-quantity">×1</span>
+            </div>
+            <div class="item-low-price">90天低价</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 店铺2：微棉眼镜旗舰店 ===== -->
+      <div class="shop-group" data-shop="shop2">
+        <div class="shop-header">
+          <div class="cb checked" data-role="shop" data-shop="shop2" onclick="toggleShop(this)"></div>
+          <div class="shop-icon" style="background:#f0eee8;font-size:20px;">&#128083;</div>
+          <span class="shop-name">微棉眼镜旗舰店 <span class="shop-name-arrow">&#8250;</span></span>
+        </div>
+
+        <!-- 墨镜 -->
+        <div class="cart-item">
+          <div class="cb checked" data-role="item" data-shop="shop2" data-price="138" data-original="138" onclick="toggleItem(this)"></div>
+          <div class="item-image" style="background-image: url('墨镜.webp');"></div>
+          <div class="item-info">
+            <div class="item-name"><span class="item-tag-badge">春上新</span> 微棉 · 方圆脸墨镜高级感显瘦太阳眼镜防紫外线</div>
+            <div class="item-variant">
+              <span class="item-variant-text">透灰框黑灰片</span>
+              <span class="item-variant-arrow">&#8250;</span>
+            </div>
+            <div class="item-tags">
+              <span class="item-tag" style="color:#999;">退货包运费</span>
+            </div>
+            <div class="item-price-qty-row">
+              <div class="item-price-group">
+                <span class="item-price-label">到手价</span>
+                <span class="item-price">¥138</span><span class="item-price-decimal"></span>
+              </div>
+              <span class="item-quantity">×1</span>
+            </div>
+            <div class="item-low-price">180天低价</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 店铺3：骆驼户外旗舰店 ===== -->
+      <div class="shop-group" data-shop="shop3">
+        <div class="shop-header">
+          <div class="cb checked" data-role="shop" data-shop="shop3" onclick="toggleShop(this)"></div>
+          <div class="shop-icon" style="background:#f5ede5;font-size:18px;color:#555;">&#9978;</div>
+          <span class="shop-name">骆驼户外旗舰店 <span class="shop-name-arrow">&#8250;</span></span>
+        </div>
+
+        <!-- 冲锋衣 -->
+        <div class="cart-item">
+          <div class="cb checked" data-role="item" data-shop="shop3" data-price="439" data-original="669" onclick="toggleItem(this)"></div>
+          <div class="item-image" style="background-image: url('冲锋衣.webp');"></div>
+          <div class="item-info">
+            <div class="item-name">骆驼 · 【山系】情侣款三合一冲锋衣防风防水防污外套</div>
+            <div class="item-variant">
+              <span class="item-variant-text">幻影黑（抓绒内胆）男</span>
+              <span class="item-variant-arrow">&#8250;</span>
+            </div>
+            <div class="item-tags">
+              <span class="item-tag">限时立减230</span>
+              <span class="item-tag" style="color:#999;">退货包运费</span>
+            </div>
+            <div class="item-price-qty-row">
+              <div class="item-price-group">
+                <span class="item-price-label">到手价</span>
+                <span class="item-price">¥439</span><span class="item-price-decimal"></span>
+                <span class="item-price-original">¥669</span>
+              </div>
+              <span class="item-quantity">×1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shop-divider"></div>
+
+        <!-- 裤子 -->
+        <div class="cart-item">
+          <div class="cb checked" data-role="item" data-shop="shop3" data-price="198" data-original="198" onclick="toggleItem(this)"></div>
+          <div class="item-image" style="background-image: url('裤子.webp');"></div>
+          <div class="item-info">
+            <div class="item-name">114cm水洗复古蓝宽松牛仔裤 莱赛尔+棉透气阔腿裤</div>
+            <div class="item-variant">
+              <span class="item-variant-text">复古蓝</span>
+              <span class="item-variant-arrow">&#8250;</span>
+            </div>
+            <div class="item-tags">
+              <span class="item-tag" style="color:#999;">退货包运费</span>
+            </div>
+            <div class="item-price-qty-row">
+              <div class="item-price-group">
+                <span class="item-price-label">到手价</span>
+                <span class="item-price">¥198</span><span class="item-price-decimal"></span>
+              </div>
+              <span class="item-quantity">×1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 店铺4：包包店铺 ===== -->
+      <div class="shop-group" data-shop="shop4">
+        <div class="shop-header">
+          <div class="cb checked" data-role="shop" data-shop="shop4" onclick="toggleShop(this)"></div>
+          <div class="shop-icon" style="background:#f0ebe4;font-size:22px;">&#128092;</div>
+          <span class="shop-name">潮流格子包袋店 <span class="shop-name-arrow">&#8250;</span></span>
+        </div>
+
+        <!-- 包包 -->
+        <div class="cart-item">
+          <div class="cb checked" data-role="item" data-shop="shop4" data-price="35" data-original="35" onclick="toggleItem(this)"></div>
+          <div class="item-image" style="background-image: url('包包.webp');"></div>
+          <div class="item-info">
+            <div class="item-name">2025新款超大容量格子购物袋女时尚单肩包双肩包</div>
+            <div class="item-variant">
+              <span class="item-variant-text">黄色</span>
+              <span class="item-variant-arrow">&#8250;</span>
+            </div>
+            <div class="item-tags">
+              <span class="item-tag" style="color:#999;">退货包运费</span>
+            </div>
+            <div class="item-price-qty-row">
+              <div class="item-price-group">
+                <span class="item-price-label">到手价</span>
+                <span class="item-price">¥35</span><span class="item-price-decimal"></span>
+              </div>
+              <span class="item-quantity">×1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div><!-- end scroll-content -->
+
+    <!-- ===== 底部栏 ===== -->
+    <footer class="bottom-bar">
+      <div class="bottom-select-all" onclick="toggleSelectAll()">
+        <div class="cb checked" id="selectAllCheckbox"></div>
+        <span class="bottom-select-text">全选</span>
+      </div>
+      <div class="bottom-total-section">
+        <div class="bottom-total-row">
+          <span class="bottom-total-label">总计</span>
+          <span class="bottom-total-price" id="totalPrice">¥846</span><span class="bottom-total-decimal" id="totalDecimal"></span>
+        </div>
+        <div class="bottom-discount-row">
+          <span class="bottom-discount-text" id="discountText">优惠 ¥230.00</span>
+          <span class="bottom-detail-text">明细</span>
+          <span class="bottom-detail-arrow">&#9660;</span>
+        </div>
+      </div>
+      <button class="bottom-checkout-btn" id="checkoutBtn" onclick="showToast('领券结算中...')">领券结算(5)</button>
+    </footer>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ========== 勾选框交互 ==========
+
+    // 切换单个商品
+    function toggleItem(el) {
+      el.classList.toggle('checked');
+      updateShopCheckbox(el.dataset.shop);
+      updateSelectAll();
+      updateTotals();
+    }
+
+    // 切换店铺（影响该店铺全部商品）
+    function toggleShop(el) {
+      el.classList.toggle('checked');
+      const isChecked = el.classList.contains('checked');
+      const shopId = el.dataset.shop;
+      const items = document.querySelectorAll('.cb[data-role="item"][data-shop="' + shopId + '"]');
+      items.forEach(item => {
+        if (isChecked) {
+          item.classList.add('checked');
+        } else {
+          item.classList.remove('checked');
+        }
+      });
+      updateSelectAll();
+      updateTotals();
+    }
+
+    // 根据商品勾选状态更新店铺勾选框
+    function updateShopCheckbox(shopId) {
+      const items = document.querySelectorAll('.cb[data-role="item"][data-shop="' + shopId + '"]');
+      const shopCb = document.querySelector('.cb[data-role="shop"][data-shop="' + shopId + '"]');
+      if (!shopCb) return;
+      const allChecked = Array.from(items).every(item => item.classList.contains('checked'));
+      if (allChecked) {
+        shopCb.classList.add('checked');
+      } else {
+        shopCb.classList.remove('checked');
+      }
+    }
+
+    // 全选/全不选
+    function toggleSelectAll() {
+      const selectAllCb = document.getElementById('selectAllCheckbox');
+      selectAllCb.classList.toggle('checked');
+      const isChecked = selectAllCb.classList.contains('checked');
+      const allCbs = document.querySelectorAll('.cb[data-role="item"], .cb[data-role="shop"]');
+      allCbs.forEach(cb => {
+        if (isChecked) {
+          cb.classList.add('checked');
+        } else {
+          cb.classList.remove('checked');
+        }
+      });
+      updateTotals();
+    }
+
+    // 更新"全选"按钮状态
+    function updateSelectAll() {
+      const allItems = document.querySelectorAll('.cb[data-role="item"]');
+      const allChecked = Array.from(allItems).every(item => item.classList.contains('checked'));
+      const selectAllCb = document.getElementById('selectAllCheckbox');
+      if (allChecked) {
+        selectAllCb.classList.add('checked');
+      } else {
+        selectAllCb.classList.remove('checked');
+      }
+    }
+
+    // 更新底部总计
+    function updateTotals() {
+      const checkedItems = document.querySelectorAll('.cb[data-role="item"].checked');
+      let total = 0;
+      let originalTotal = 0;
+      let count = 0;
+
+      checkedItems.forEach(item => {
+        total += parseFloat(item.dataset.price);
+        originalTotal += parseFloat(item.dataset.original);
+        count++;
+      });
+
+      const discount = originalTotal - total;
+
+      // 格式化总计
+      const totalInt = Math.floor(total);
+      const totalDec = (total - totalInt).toFixed(2).substring(1); // ".xx"
+      document.getElementById('totalPrice').textContent = '¥' + totalInt;
+      document.getElementById('totalDecimal').textContent = totalDec === '.00' ? '' : totalDec;
+
+      // 优惠
+      document.getElementById('discountText').textContent = discount > 0 ? '优惠 ¥' + discount.toFixed(2) : '';
+
+      // 结算按钮
+      document.getElementById('checkoutBtn').textContent = '领券结算(' + count + ')';
+    }
+
+    // ========== 场景参数处理 ==========
+    const urlParams = new URLSearchParams(window.location.search);
+    const scene = urlParams.get('scene');
+
+    if (scene === 'scene2') {
+      // 替换帽子为渔夫帽
+      const shop1 = document.querySelector('.shop-group[data-shop="shop1"]');
+
+      // 更新店铺名称
+      shop1.querySelector('.shop-name').innerHTML = '馨帮帮旗舰店 <span class="shop-name-arrow">&#8250;</span>';
+      shop1.querySelector('.shop-icon').innerHTML = '&#127890;';
+
+      // 更新商品信息
+      const hatItem = shop1.querySelector('.cart-item');
+      const hatCb = hatItem.querySelector('.cb[data-role="item"]');
+      hatCb.dataset.price = '42';
+      hatCb.dataset.original = '42';
+
+      hatItem.querySelector('.item-image').style.backgroundImage = "url('帽子2.webp')";
+      hatItem.querySelector('.item-name').textContent = '馨帮帮度假风沙滩渔夫帽海边防晒遮阳帽大帽檐蝴蝶结编织草帽女';
+      hatItem.querySelector('.item-variant-text').textContent = '卡其布色-M（56-58cm）';
+      hatItem.querySelector('.item-price').textContent = '¥42';
+      hatItem.querySelector('.item-price-decimal').textContent = '';
+    }
+
+    // 初始化计算
+    updateTotals();
+
+    // ========== Toast ==========
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // ========== 自适应布局 ==========
+    function updateLayout() {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var scale = Math.min(vw / 1080, vh / 2405);
+      var wrapper = document.querySelector('.page-wrapper');
+      var container = document.querySelector('.phone-container');
+      wrapper.style.width = Math.floor(1080 * scale) + 'px';
+      wrapper.style.height = Math.floor(2405 * scale) + 'px';
+      container.style.transform = 'scale(' + scale + ')';
+    }
+    window.addEventListener('resize', updateLayout);
+    updateLayout();
+  </script>
+</body>
+</html>

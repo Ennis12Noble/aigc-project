@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小红书 - 秋日复古露营装备清单</title>
+  <title>小红书 - 治愈系阳台家居好物</title>
   <style>
     /* ========== 全局样式 ========== */
     * {
@@ -55,7 +55,7 @@
       position: relative;
       width: 100%;
       height: 1200px;
-      background-image: url('场景1.png');
+      background-image: url('家居1.png');
       background-size: cover;
       background-position: center;
       transition: opacity 0.4s ease;
@@ -184,21 +184,21 @@
     }
 
     /* 气泡位置 */
-    /* 气泡1: 帐篷 - 右上方 */
-    .bubble-1 { top: 100px; right: 280px; }
+    /* 气泡1: 躺椅 - 椅子坐垫中心 */
+    .bubble-1 { top: 580px; left: 560px; }
     .bubble-1 .bubble-card { top: 52px; right: 0; }
 
-    /* 气泡2: 露营推车 - 左中偏上 */
-    .bubble-2 { top: 500px; left: 180px; }
-    .bubble-2 .bubble-card { top: 52px; left: 0; }
+    /* 气泡2: 落地灯 - 灯臂弧线上方 */
+    .bubble-2 { top: 150px; right: 260px; }
+    .bubble-2 .bubble-card { top: 52px; right: 0; }
 
-    /* 气泡3: 咖啡壶 - 左下方桌上 */
-    .bubble-3 { bottom: 380px; left: 100px; }
-    .bubble-3 .bubble-card { bottom: 52px; left: 0; }
+    /* 气泡3: 毛毯 - 椅子扶手垂下的毛毯上 */
+    .bubble-3 { top: 780px; left: 450px; }
+    .bubble-3 .bubble-card { top: 52px; left: 0; }
 
-    /* 气泡4: 月亮椅 - 右下方 */
-    .bubble-4 { bottom: 150px; right: 260px; }
-    .bubble-4 .bubble-card { bottom: 52px; right: 0; }
+    /* 气泡4: 茶几 - 左下方 */
+    .bubble-4 { bottom: 320px; left: 120px; }
+    .bubble-4 .bubble-card { bottom: 52px; left: 0; }
 
     /* 气泡dot在右侧布局 */
     .note-bubble.dot-right {
@@ -706,51 +706,51 @@
       </div>
       <!-- 生成式种草画报标签 -->
       <div class="image-tag">
-        <span class="image-tag-brand"><img src="小红书logo.png" alt="小红书"></span>
+        <span class="image-tag-brand"><img src="../小红书logo.png" alt="小红书"></span>
         <span class="image-tag-sep">|</span>
         <span class="image-tag-label">生成式种草画报</span>
       </div>
 
-      <!-- 笔记气泡1：帐篷 - 右上方 -->
+      <!-- 笔记气泡1：躺椅 -->
       <div class="note-bubble bubble-1" id="bubble1">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="tentBubbleCard">
-          <div class="bubble-card-title" id="tentBubbleTitle">非专业测评下家庭露营帐篷(牧高笛、挪客)</div>
+        <div class="bubble-card" id="chairBubbleCard">
+          <div class="bubble-card-title" id="chairBubbleTitle">救命！这把摇摇椅...</div>
         </div>
       </div>
 
-      <!-- 笔记气泡2：露营推车 - 左中偏上 -->
+      <!-- 笔记气泡2：落地灯 -->
       <div class="note-bubble bubble-2" id="bubble2">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="cartBubbleCard">
-          <div class="bubble-card-title">说实话，露营推车怎么选？</div>
+        <div class="bubble-card" id="lampBubbleCard">
+          <div class="bubble-card-title">氛围感落地灯 渐变橘灯罩</div>
         </div>
       </div>
 
-      <!-- 笔记气泡3：咖啡壶 - 左下方桌上 -->
+      <!-- 笔记气泡3：毛毯 -->
       <div class="note-bubble bubble-3" id="bubble3">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="coffeeBubbleCard">
-          <div class="bubble-card-title">精致主义穷人的抠搜日记 vol.1</div>
+        <div class="bubble-card" id="blanketBubbleCard">
+          <div class="bubble-card-title">法式半边绒！小被子太温柔了</div>
         </div>
       </div>
 
-      <!-- 笔记气泡4：月亮椅 - 右下方 -->
+      <!-- 笔记气泡4：茶几 -->
       <div class="note-bubble bubble-4" id="bubble4">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="chairBubbleCard">
-          <div class="bubble-card-title">月亮椅的选择（已买牧高笛和挪客）</div>
+        <div class="bubble-card" id="tableBubbleCard">
+          <div class="bubble-card-title">奶油风公寓茶几必备</div>
         </div>
       </div>
     </section>
 
     <!-- ===== 笔记标题与正文 ===== -->
     <div class="note-content">
-      <h1 class="note-title">秋日复古露营装备清单 | 一键生成我的理想营地</h1>
+      <h1 class="note-title">家是能量站 | 一键生成我的治愈系阳台</h1>
 
       <div class="note-body">
-        <p>秋天就该去露营！帐篷、折叠椅、摩卡壶、露营车，这一套复古氛围感直接拉满，周末短途出片神器，照着买就对了。</p>
-        <p style="margin-top:16px;">最喜欢傍晚支好帐篷煮一壶咖啡的感觉，木质家具搭配暖色调露营毯，拍出来每一张都是大片。</p>
+        <p>下班回家窝在摇椅上，盖着软绵绵的毛毯，暖光落地灯一开，整个阳台都是治愈的氛围感，谁看了不想拥有！</p>
+        <p style="margin-top:16px;">奶油风茶几放上一杯热可可，配上这组家居好物，小阳台也能变成我的能量充电站。</p>
 
       </div>
     </div>
@@ -758,32 +758,32 @@
     <!-- ===== 商品列表（4个 + 更多按钮） ===== -->
     <section class="products-section">
       <div class="products-grid">
-        <!-- 月亮椅 -->
-        <div class="product-card" onclick="showToast('查看月亮椅详情')">
-          <div class="product-thumb" style="background-image: url('椅子.webp');"></div>
-          <div class="product-name">牧高笛户外折叠椅月影白</div>
-          <div class="product-price">¥113.6</div>
+        <!-- 躺椅 -->
+        <div class="product-card" onclick="showToast('查看躺椅详情')">
+          <div class="product-thumb" style="background-image: url('躺椅.webp');"></div>
+          <div class="product-name">蜗牛摇摇椅躺椅懒人沙发</div>
+          <div class="product-price">¥247.35</div>
         </div>
 
-        <!-- 咖啡壶 -->
-        <div class="product-card" onclick="showToast('查看咖啡壶详情')">
-          <div class="product-thumb" style="background-image: url('咖啡壶.webp');"></div>
-          <div class="product-name">Mongdio摩卡壶4件套</div>
-          <div class="product-price">¥183</div>
+        <!-- 落地灯 -->
+        <div class="product-card" onclick="showToast('查看落地灯详情')">
+          <div class="product-thumb" style="background-image: url('灯.webp');"></div>
+          <div class="product-name">北欧多功能落地灯置物</div>
+          <div class="product-price">¥290</div>
         </div>
 
-        <!-- 露营推车 -->
-        <div class="product-card" onclick="showToast('查看露营推车详情')">
-          <div class="product-thumb" style="background-image: url('露营推车.webp');"></div>
-          <div class="product-name">牧高笛星际露营车宽轮</div>
-          <div class="product-price">¥399</div>
+        <!-- 毛毯（场景动态） -->
+        <div class="product-card" onclick="showToast('查看毛毯详情')">
+          <div class="product-thumb" id="blanketThumb" style="background-image: url('毛毯.webp');"></div>
+          <div class="product-name" id="blanketName">A类轻奢法式毛毯加厚</div>
+          <div class="product-price" id="blanketPrice">¥131.12</div>
         </div>
 
-        <!-- 帐篷 -->
-        <div class="product-card" id="tentProduct" onclick="showToast('查看帐篷详情')">
-          <div class="product-thumb" id="tentThumb" style="background-image: url('一开始的帐篷.webp');"></div>
-          <div class="product-name" id="tentName">牧高笛零动155帐篷</div>
-          <div class="product-price" id="tentPrice">¥549</div>
+        <!-- 茶几 -->
+        <div class="product-card" onclick="showToast('查看茶几详情')">
+          <div class="product-thumb" style="background-image: url('茶几.webp');"></div>
+          <div class="product-name">构形·奶油风实木茶几</div>
+          <div class="product-price">¥949</div>
         </div>
 
         <!-- 更多按钮 -->
@@ -818,7 +818,7 @@
     <footer class="bottom-bar">
       <div class="bottom-ai-input">
         <span class="bottom-ai-icon">&#10024;</span>
-        <input type="text" class="bottom-ai-text-input" id="aiInput" placeholder='我需要适合4人的帐篷' />
+        <input type="text" class="bottom-ai-text-input" id="aiInput" placeholder='我想打造治愈系阳台' />
         <button class="bottom-voice-btn" onclick="showToast('语音输入功能')">
           <svg viewBox="0 0 24 24">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -868,36 +868,38 @@
     // ========== 场景配置数据 ==========
     const sceneData = {
       scene1: {
-        image: '场景1.png',
+        image: '家居1.png',
         bubbles: {
-          bubble1: { top: '100px', bottom: 'auto', left: 'auto', right: '280px' },
-          bubble2: { top: '500px', bottom: 'auto', left: '180px', right: 'auto' },
-          bubble3: { top: 'auto', bottom: '380px', left: '100px', right: 'auto' },
-          bubble4: { top: 'auto', bottom: '150px', left: 'auto', right: '260px' }
+          bubble1: { top: '580px', bottom: 'auto', left: '560px', right: 'auto' },
+          bubble2: { top: '150px', bottom: 'auto', left: 'auto', right: '260px' },
+          bubble3: { top: '780px', bottom: 'auto', left: '450px', right: 'auto' },
+          bubble4: { top: 'auto', bottom: '320px', left: '120px', right: 'auto' }
         },
-        tent: {
-          bubbleTitle: '非专业测评下家庭露营帐篷(牧高笛、挪客)',
-          bubbleLink: 'http://xhslink.com/o/57ZqYMsrTvG',
-          productThumb: '一开始的帐篷.webp',
-          productName: '牧高笛零动155帐篷',
-          productPrice: '¥549'
-        }
+        blanket: {
+          title: '法式半边绒！小被子太温柔了',
+          url: 'http://xhslink.com/o/9rI8ybSbGFf',
+          thumbImage: '毛毯.webp',
+          thumbName: 'A类轻奢法式毛毯加厚',
+          thumbPrice: '¥131.12'
+        },
+        placeholder: '我想打造治愈系阳台'
       },
       scene2: {
-        image: '场景2.png',
+        image: '家居2.png',
         bubbles: {
-          bubble1: { top: '480px', bottom: 'auto', left: 'auto', right: '300px' },
-          bubble2: { top: 'auto', bottom: '340px', left: '120px', right: 'auto' },
-          bubble3: { top: 'auto', bottom: '300px', left: '580px', right: 'auto' },
-          bubble4: { top: 'auto', bottom: '360px', left: '520px', right: 'auto' }
+          bubble1: { top: '580px', bottom: 'auto', left: '560px', right: 'auto' },
+          bubble2: { top: '150px', bottom: 'auto', left: 'auto', right: '260px' },
+          bubble3: { top: '780px', bottom: 'auto', left: '450px', right: 'auto' },
+          bubble4: { top: 'auto', bottom: '320px', left: '120px', right: 'auto' }
         },
-        tent: {
-          bubbleTitle: '牧高笛假日星空真实使用感受',
-          bubbleLink: 'https://www.xiaohongshu.com/explore/64318708000000000800c217?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB3-5Ms-5uBF4It4Eyx1e6IOIgXD2e5qUuATaAZyQvxdM=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773998019&share_id=1fbda4e15f424f91bbe7e2755a88682e&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink',
-          productThumb: '修改后的帐篷.webp',
-          productName: '牧高笛假日星空家庭帐篷',
-          productPrice: '¥4999'
-        }
+        blanket: {
+          title: '复古小卧室｜毛毯太有氛围感',
+          url: 'http://xhslink.com/o/7j15iRoUJcB',
+          thumbImage: 'new毛毯.webp',
+          thumbName: '设计师太阳花针织毯子',
+          thumbPrice: '¥170.12'
+        },
+        placeholder: '我想换一条有图案的毛毯'
       }
     };
 
@@ -928,26 +930,20 @@
           el.style.right = pos.right;
         });
 
-        // 更新摩卡壶气泡dot位置（场景2在右侧）
-        const coffeeBubble = document.getElementById('bubble3');
-        if (sceneName === 'scene2') {
-          coffeeBubble.classList.add('dot-right');
-        } else {
-          coffeeBubble.classList.remove('dot-right');
-        }
+        // 更新毛毯气泡卡片标题
+        document.querySelector('#blanketBubbleCard .bubble-card-title').textContent = data.blanket.title;
 
-        // 更新帐篷气泡标题和链接
-        document.getElementById('tentBubbleTitle').textContent = data.tent.bubbleTitle;
-        bubbleLinks.tent.title = data.tent.bubbleTitle;
-        bubbleLinks.tent.url = data.tent.bubbleLink;
-        document.getElementById('tentBubbleCard').onclick = function() {
-          openNoteOverlay('tent');
-        };
+        // 更新毛毯 bubbleLinks
+        bubbleLinks.blanket.title = data.blanket.title;
+        bubbleLinks.blanket.url = data.blanket.url;
 
-        // 更新帐篷商品卡片
-        document.getElementById('tentThumb').style.backgroundImage = "url('" + data.tent.productThumb + "')";
-        document.getElementById('tentName').textContent = data.tent.productName;
-        document.getElementById('tentPrice').textContent = data.tent.productPrice;
+        // 更新商品列表中的毛毯
+        document.getElementById('blanketThumb').style.backgroundImage = "url('" + data.blanket.thumbImage + "')";
+        document.getElementById('blanketName').textContent = data.blanket.thumbName;
+        document.getElementById('blanketPrice').textContent = data.blanket.thumbPrice;
+
+        // 更新 placeholder
+        document.getElementById('aiInput').placeholder = data.placeholder;
 
         currentScene = sceneName;
 
@@ -960,14 +956,14 @@
     function handleRegen() {
       const input = document.getElementById('aiInput');
       const text = input.value.trim();
-      const keywords = ['更大', '天幕', '超大', '适合4人的帐篷', '适合四人的帐篷', '3人', '4人', '5人'];
+      const keywords = ['毛毯', '黑白', '图案', '太阳花', '花朵', '针织'];
       const matched = keywords.some(kw => text.includes(kw));
 
-      if (matched) {
+      if (matched && currentScene !== 'scene2') {
         showToast('正在重新生成...');
         setTimeout(() => {
           switchScene('scene2');
-          showToast('已切换为大型露营场景');
+          showToast('已切换为新毛毯搭配场景');
         }, 800);
       } else {
         showToast('正在重新生成...');
@@ -986,21 +982,21 @@
     let currentNoteUrl = '';
 
     const bubbleLinks = {
-      tent: {
-        title: '非专业测评下家庭露营帐篷(牧高笛、挪客)',
-        url: sceneData.scene1.tent.bubbleLink
-      },
-      cart: {
-        title: '说实话，露营推车怎么选？',
-        url: 'https://www.xiaohongshu.com/explore/6612588f000000001a012d82?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB0WWLTW0MuICv90aqjE2dEZapEXviGIJpec2NBaf5llc=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979442&share_id=180298db2a514741ac74afd329a57c5c&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink'
-      },
-      coffee: {
-        title: '精致主义穷人的抠搜日记 vol.1',
-        url: 'http://xhslink.com/o/1uCWL5diVRp'
-      },
       chair: {
-        title: '月亮椅的选择（已买牧高笛和挪客）',
-        url: 'http://xhslink.com/o/3wy7wkmL0JW'
+        title: '救命！这把摇摇椅...',
+        url: 'http://xhslink.com/o/AKXppYaBAlg'
+      },
+      lamp: {
+        title: '氛围感落地灯 渐变橘灯罩',
+        url: 'http://xhslink.com/o/2Sof8QIkQbS'
+      },
+      blanket: {
+        title: '法式半边绒！小被子太温柔了',
+        url: 'http://xhslink.com/o/9rI8ybSbGFf'
+      },
+      table: {
+        title: '奶油风公寓茶几必备',
+        url: 'http://xhslink.com/o/7obssS2yX40'
       }
     };
 
@@ -1048,17 +1044,17 @@
     }
 
     // ========== 初始化气泡链接 ==========
-    document.getElementById('tentBubbleCard').onclick = function() {
-      openNoteOverlay('tent');
-    };
-    document.getElementById('cartBubbleCard').onclick = function() {
-      openNoteOverlay('cart');
-    };
-    document.getElementById('coffeeBubbleCard').onclick = function() {
-      openNoteOverlay('coffee');
-    };
     document.getElementById('chairBubbleCard').onclick = function() {
       openNoteOverlay('chair');
+    };
+    document.getElementById('lampBubbleCard').onclick = function() {
+      openNoteOverlay('lamp');
+    };
+    document.getElementById('blanketBubbleCard').onclick = function() {
+      openNoteOverlay('blanket');
+    };
+    document.getElementById('tableBubbleCard').onclick = function() {
+      openNoteOverlay('table');
     };
 
     // ========== 收藏 ==========

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小红书 - 秋日复古露营装备清单</title>
+  <title>小红书 - 穿搭好物</title>
   <style>
     /* ========== 全局样式 ========== */
     * {
@@ -54,8 +54,8 @@
     .image-section {
       position: relative;
       width: 100%;
-      height: 1200px;
-      background-image: url('场景1.png');
+      height: 1300px;
+      background: url('穿搭1.png');
       background-size: cover;
       background-position: center;
       transition: opacity 0.4s ease;
@@ -183,22 +183,26 @@
       white-space: nowrap;
     }
 
-    /* 气泡位置 */
-    /* 气泡1: 帐篷 - 右上方 */
-    .bubble-1 { top: 100px; right: 280px; }
-    .bubble-1 .bubble-card { top: 52px; right: 0; }
+    /* 气泡位置 - 放在产品边缘，避开人物中心 */
+    /* 气泡1: 帽子 - 帽檐位置，卡片在按钮右侧水平展开 */
+    .bubble-1 { top: 140px; left: 670px; display: flex; flex-direction: row; align-items: center; }
+    .bubble-1 .bubble-card { position: relative; top: auto; bottom: auto; left: auto; right: auto; margin-left: 12px; }
 
-    /* 气泡2: 露营推车 - 左中偏上 */
-    .bubble-2 { top: 500px; left: 180px; }
-    .bubble-2 .bubble-card { top: 52px; left: 0; }
+    /* 气泡2: 墨镜 - 左侧镜片边缘，卡片向上展开 */
+    .bubble-2 { top: 260px; left: 420px; }
+    .bubble-2 .bubble-card { bottom: 52px; right: 0; }
 
-    /* 气泡3: 咖啡壶 - 左下方桌上 */
-    .bubble-3 { bottom: 380px; left: 100px; }
-    .bubble-3 .bubble-card { bottom: 52px; left: 0; }
+    /* 气泡3: 冲锋衣 - 右袖边缘，卡片向右展开 */
+    .bubble-3 { top: 400px; left: 660px; }
+    .bubble-3 .bubble-card { top: 52px; left: 0; }
 
-    /* 气泡4: 月亮椅 - 右下方 */
-    .bubble-4 { bottom: 150px; right: 260px; }
-    .bubble-4 .bubble-card { bottom: 52px; right: 0; }
+    /* 气泡4: 裤子 - 右裤腿边缘，卡片向右展开 */
+    .bubble-4 { top: 800px; left: 600px; }
+    .bubble-4 .bubble-card { top: 52px; left: 0; }
+
+    /* 气泡5: 包包 - 左侧包包位置，卡片向上左展开 */
+    .bubble-5 { top: 550px; left: 380px; }
+    .bubble-5 .bubble-card { bottom: 52px; right: 0; }
 
     /* 气泡dot在右侧布局 */
     .note-bubble.dot-right {
@@ -706,84 +710,98 @@
       </div>
       <!-- 生成式种草画报标签 -->
       <div class="image-tag">
-        <span class="image-tag-brand"><img src="小红书logo.png" alt="小红书"></span>
+        <span class="image-tag-brand"><img src="../小红书logo.png" alt="小红书"></span>
         <span class="image-tag-sep">|</span>
         <span class="image-tag-label">生成式种草画报</span>
       </div>
 
-      <!-- 笔记气泡1：帐篷 - 右上方 -->
+      <!-- 笔记气泡1：帽子 -->
       <div class="note-bubble bubble-1" id="bubble1">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="tentBubbleCard">
-          <div class="bubble-card-title" id="tentBubbleTitle">非专业测评下家庭露营帐篷(牧高笛、挪客)</div>
+        <div class="bubble-card" id="hatBubbleCard">
+          <div class="bubble-card-title" id="hatBubbleTitle">那拉提的小🐑太可爱噜</div>
         </div>
       </div>
 
-      <!-- 笔记气泡2：露营推车 - 左中偏上 -->
+      <!-- 笔记气泡2：墨镜 -->
       <div class="note-bubble bubble-2" id="bubble2">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="cartBubbleCard">
-          <div class="bubble-card-title">说实话，露营推车怎么选？</div>
+        <div class="bubble-card" id="glassesBubbleCard">
+          <div class="bubble-card-title">方圆脸本命墨镜🕶</div>
         </div>
       </div>
 
-      <!-- 笔记气泡3：咖啡壶 - 左下方桌上 -->
+      <!-- 笔记气泡3：冲锋衣 -->
       <div class="note-bubble bubble-3" id="bubble3">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="coffeeBubbleCard">
-          <div class="bubble-card-title">精致主义穷人的抠搜日记 vol.1</div>
+        <div class="bubble-card" id="jacketBubbleCard">
+          <div class="bubble-card-title">香格里拉 · 人生海海</div>
         </div>
       </div>
 
-      <!-- 笔记气泡4：月亮椅 - 右下方 -->
+      <!-- 笔记气泡4：裤子 -->
       <div class="note-bubble bubble-4" id="bubble4">
         <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
-        <div class="bubble-card" id="chairBubbleCard">
-          <div class="bubble-card-title">月亮椅的选择（已买牧高笛和挪客）</div>
+        <div class="bubble-card" id="pantsBubbleCard">
+          <div class="bubble-card-title">ootd简简单单就很好看</div>
+        </div>
+      </div>
+
+      <!-- 笔记气泡5：包包 -->
+      <div class="note-bubble bubble-5" id="bubble5">
+        <div class="bubble-dot" onclick="toggleBubble(this.parentElement)">+</div>
+        <div class="bubble-card" id="bagBubbleCard">
+          <div class="bubble-card-title">随地大小坐 ටᆼට 天气太热了</div>
         </div>
       </div>
     </section>
 
     <!-- ===== 笔记标题与正文 ===== -->
     <div class="note-content">
-      <h1 class="note-title">秋日复古露营装备清单 | 一键生成我的理想营地</h1>
+      <h1 class="note-title">去大自然里走走吧 | 新疆旅游穿搭图鉴</h1>
 
       <div class="note-body">
-        <p>秋天就该去露营！帐篷、折叠椅、摩卡壶、露营车，这一套复古氛围感直接拉满，周末短途出片神器，照着买就对了。</p>
-        <p style="margin-top:16px;">最喜欢傍晚支好帐篷煮一壶咖啡的感觉，木质家具搭配暖色调露营毯，拍出来每一张都是大片。</p>
-
+        <p>出门旅行穿搭太重要了！渔夫帽遮阳又好看，搭配显瘦墨镜秒变氛围感，冲锋衣防风防水一件搞定，谁看了不想拥有！</p>
+        <p style="margin-top:16px;">复古蓝牛仔裤百搭又显瘦，配上这组穿搭好物，轻装出行也能拍出大片感。</p>
       </div>
     </div>
 
     <!-- ===== 商品列表（4个 + 更多按钮） ===== -->
     <section class="products-section">
       <div class="products-grid">
-        <!-- 月亮椅 -->
-        <div class="product-card" onclick="showToast('查看月亮椅详情')">
-          <div class="product-thumb" style="background-image: url('椅子.webp');"></div>
-          <div class="product-name">牧高笛户外折叠椅月影白</div>
-          <div class="product-price">¥113.6</div>
+        <!-- 帽子 -->
+        <div class="product-card" onclick="showToast('查看帽子详情')">
+          <div class="product-thumb" style="background-image: url('帽子.webp');"></div>
+          <div class="product-name">cgediao 西部牛仔帽渔夫帽</div>
+          <div class="product-price">¥36</div>
         </div>
 
-        <!-- 咖啡壶 -->
-        <div class="product-card" onclick="showToast('查看咖啡壶详情')">
-          <div class="product-thumb" style="background-image: url('咖啡壶.webp');"></div>
-          <div class="product-name">Mongdio摩卡壶4件套</div>
-          <div class="product-price">¥183</div>
+        <!-- 墨镜 -->
+        <div class="product-card" onclick="showToast('查看墨镜详情')">
+          <div class="product-thumb" style="background-image: url('墨镜.webp');"></div>
+          <div class="product-name">微棉 方圆脸墨镜太阳眼镜</div>
+          <div class="product-price">¥138</div>
         </div>
 
-        <!-- 露营推车 -->
-        <div class="product-card" onclick="showToast('查看露营推车详情')">
-          <div class="product-thumb" style="background-image: url('露营推车.webp');"></div>
-          <div class="product-name">牧高笛星际露营车宽轮</div>
-          <div class="product-price">¥399</div>
+        <!-- 冲锋衣 -->
+        <div class="product-card" onclick="showToast('查看冲锋衣详情')">
+          <div class="product-thumb" style="background-image: url('冲锋衣.webp');"></div>
+          <div class="product-name">骆驼 山系三合一冲锋衣</div>
+          <div class="product-price">¥439</div>
         </div>
 
-        <!-- 帐篷 -->
-        <div class="product-card" id="tentProduct" onclick="showToast('查看帐篷详情')">
-          <div class="product-thumb" id="tentThumb" style="background-image: url('一开始的帐篷.webp');"></div>
-          <div class="product-name" id="tentName">牧高笛零动155帐篷</div>
-          <div class="product-price" id="tentPrice">¥549</div>
+        <!-- 裤子 -->
+        <div class="product-card" onclick="showToast('查看裤子详情')">
+          <div class="product-thumb" style="background-image: url('裤子.webp');"></div>
+          <div class="product-name">114cm水洗复古蓝宽松牛仔裤</div>
+          <div class="product-price">¥198</div>
+        </div>
+
+        <!-- 包包 -->
+        <div class="product-card" onclick="showToast('查看包包详情')">
+          <div class="product-thumb" style="background-image: url('包包.webp');"></div>
+          <div class="product-name">超大容量格子购物袋单肩包</div>
+          <div class="product-price">¥35</div>
         </div>
 
         <!-- 更多按钮 -->
@@ -818,7 +836,7 @@
     <footer class="bottom-bar">
       <div class="bottom-ai-input">
         <span class="bottom-ai-icon">&#10024;</span>
-        <input type="text" class="bottom-ai-text-input" id="aiInput" placeholder='我需要适合4人的帐篷' />
+        <input type="text" class="bottom-ai-text-input" id="aiInput" placeholder='帮我搭配一套出行穿搭' />
         <button class="bottom-voice-btn" onclick="showToast('语音输入功能')">
           <svg viewBox="0 0 24 24">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -865,109 +883,42 @@
   </div>
 
   <script>
-    // ========== 场景配置数据 ==========
-    const sceneData = {
-      scene1: {
-        image: '场景1.png',
-        bubbles: {
-          bubble1: { top: '100px', bottom: 'auto', left: 'auto', right: '280px' },
-          bubble2: { top: '500px', bottom: 'auto', left: '180px', right: 'auto' },
-          bubble3: { top: 'auto', bottom: '380px', left: '100px', right: 'auto' },
-          bubble4: { top: 'auto', bottom: '150px', left: 'auto', right: '260px' }
-        },
-        tent: {
-          bubbleTitle: '非专业测评下家庭露营帐篷(牧高笛、挪客)',
-          bubbleLink: 'http://xhslink.com/o/57ZqYMsrTvG',
-          productThumb: '一开始的帐篷.webp',
-          productName: '牧高笛零动155帐篷',
-          productPrice: '¥549'
-        }
-      },
-      scene2: {
-        image: '场景2.png',
-        bubbles: {
-          bubble1: { top: '480px', bottom: 'auto', left: 'auto', right: '300px' },
-          bubble2: { top: 'auto', bottom: '340px', left: '120px', right: 'auto' },
-          bubble3: { top: 'auto', bottom: '300px', left: '580px', right: 'auto' },
-          bubble4: { top: 'auto', bottom: '360px', left: '520px', right: 'auto' }
-        },
-        tent: {
-          bubbleTitle: '牧高笛假日星空真实使用感受',
-          bubbleLink: 'https://www.xiaohongshu.com/explore/64318708000000000800c217?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB3-5Ms-5uBF4It4Eyx1e6IOIgXD2e5qUuATaAZyQvxdM=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773998019&share_id=1fbda4e15f424f91bbe7e2755a88682e&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink',
-          productThumb: '修改后的帐篷.webp',
-          productName: '牧高笛假日星空家庭帐篷',
-          productPrice: '¥4999'
-        }
-      }
-    };
-
     let currentScene = 'scene1';
 
-    // ========== 场景切换 ==========
-    function switchScene(sceneName) {
-      if (currentScene === sceneName) return;
-      const data = sceneData[sceneName];
-      if (!data) return;
-
-      const section = document.getElementById('imageSection');
-
-      // 淡出
-      section.classList.add('switching');
-
-      setTimeout(() => {
-        // 切换背景图
-        section.style.backgroundImage = "url('" + data.image + "')";
-
-        // 更新气泡位置
-        ['bubble1', 'bubble2', 'bubble3', 'bubble4'].forEach(id => {
-          const el = document.getElementById(id);
-          const pos = data.bubbles[id];
-          el.style.top = pos.top;
-          el.style.bottom = pos.bottom;
-          el.style.left = pos.left;
-          el.style.right = pos.right;
-        });
-
-        // 更新摩卡壶气泡dot位置（场景2在右侧）
-        const coffeeBubble = document.getElementById('bubble3');
-        if (sceneName === 'scene2') {
-          coffeeBubble.classList.add('dot-right');
-        } else {
-          coffeeBubble.classList.remove('dot-right');
-        }
-
-        // 更新帐篷气泡标题和链接
-        document.getElementById('tentBubbleTitle').textContent = data.tent.bubbleTitle;
-        bubbleLinks.tent.title = data.tent.bubbleTitle;
-        bubbleLinks.tent.url = data.tent.bubbleLink;
-        document.getElementById('tentBubbleCard').onclick = function() {
-          openNoteOverlay('tent');
-        };
-
-        // 更新帐篷商品卡片
-        document.getElementById('tentThumb').style.backgroundImage = "url('" + data.tent.productThumb + "')";
-        document.getElementById('tentName').textContent = data.tent.productName;
-        document.getElementById('tentPrice').textContent = data.tent.productPrice;
-
-        currentScene = sceneName;
-
-        // 淡入
-        section.classList.remove('switching');
-      }, 400);
-    }
-
     // ========== 重新生成按钮处理 ==========
+    let hasRegenerated = false;
+
     function handleRegen() {
       const input = document.getElementById('aiInput');
       const text = input.value.trim();
-      const keywords = ['更大', '天幕', '超大', '适合4人的帐篷', '适合四人的帐篷', '3人', '4人', '5人'];
+      const keywords = ['渔夫帽', '帽子'];
       const matched = keywords.some(kw => text.includes(kw));
 
-      if (matched) {
+      if (matched && !hasRegenerated) {
+        hasRegenerated = true;
         showToast('正在重新生成...');
+
         setTimeout(() => {
-          switchScene('scene2');
-          showToast('已切换为大型露营场景');
+          // 更新场景图
+          document.getElementById('imageSection').style.background = "url('穿搭2.png') center/cover";
+
+          // 更新气泡1标题
+          document.getElementById('hatBubbleTitle').textContent = '这个地方真的太出片了！！';
+
+          // 更新气泡1笔记链接
+          bubbleLinks.hat = {
+            title: '这个地方真的太出片了！！',
+            url: 'http://xhslink.com/o/9fe2HNcBklK'
+          };
+
+          // 更新商品缩略图和价格（第1个product-card）
+          const firstCard = document.querySelectorAll('.product-card')[0];
+          firstCard.querySelector('.product-thumb').style.backgroundImage = "url('帽子2.webp')";
+          firstCard.querySelector('.product-name').textContent = '馨帮帮度假风沙滩渔夫帽';
+          firstCard.querySelector('.product-price').textContent = '¥42';
+
+          currentScene = 'scene2';
+          showToast('已为您重新生成');
         }, 800);
       } else {
         showToast('正在重新生成...');
@@ -986,21 +937,25 @@
     let currentNoteUrl = '';
 
     const bubbleLinks = {
-      tent: {
-        title: '非专业测评下家庭露营帐篷(牧高笛、挪客)',
-        url: sceneData.scene1.tent.bubbleLink
+      hat: {
+        title: '那拉提的小🐑太可爱噜',
+        url: 'http://xhslink.com/o/2eH9AZXkpnO'
       },
-      cart: {
-        title: '说实话，露营推车怎么选？',
-        url: 'https://www.xiaohongshu.com/explore/6612588f000000001a012d82?app_platform=android&ignoreEngage=true&app_version=9.21.0&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB0WWLTW0MuICv90aqjE2dEZapEXviGIJpec2NBaf5llc=&author_share=1&shareRedId=ODY4Mzg4RTo2NzUyOTgwNjY0OThIPDw-&apptime=1773979442&share_id=180298db2a514741ac74afd329a57c5c&share_channel=copy_link&appuid=606353a1000000000101d765&xhsshare=CopyLink'
+      glasses: {
+        title: '方圆脸本命墨镜🕶',
+        url: 'http://xhslink.com/o/A0nEBd1UQHZ'
       },
-      coffee: {
-        title: '精致主义穷人的抠搜日记 vol.1',
-        url: 'http://xhslink.com/o/1uCWL5diVRp'
+      jacket: {
+        title: '香格里拉 · 人生海海',
+        url: 'http://xhslink.com/o/88r2HvwBnFG'
       },
-      chair: {
-        title: '月亮椅的选择（已买牧高笛和挪客）',
-        url: 'http://xhslink.com/o/3wy7wkmL0JW'
+      pants: {
+        title: 'ootd简简单单就很好看',
+        url: 'http://xhslink.com/o/90rxyYBLru8'
+      },
+      bag: {
+        title: '随地大小坐 ටᆼට 天气太热了',
+        url: 'http://xhslink.com/o/844haZEumO6'
       }
     };
 
@@ -1048,17 +1003,20 @@
     }
 
     // ========== 初始化气泡链接 ==========
-    document.getElementById('tentBubbleCard').onclick = function() {
-      openNoteOverlay('tent');
+    document.getElementById('hatBubbleCard').onclick = function() {
+      openNoteOverlay('hat');
     };
-    document.getElementById('cartBubbleCard').onclick = function() {
-      openNoteOverlay('cart');
+    document.getElementById('glassesBubbleCard').onclick = function() {
+      openNoteOverlay('glasses');
     };
-    document.getElementById('coffeeBubbleCard').onclick = function() {
-      openNoteOverlay('coffee');
+    document.getElementById('jacketBubbleCard').onclick = function() {
+      openNoteOverlay('jacket');
     };
-    document.getElementById('chairBubbleCard').onclick = function() {
-      openNoteOverlay('chair');
+    document.getElementById('pantsBubbleCard').onclick = function() {
+      openNoteOverlay('pants');
+    };
+    document.getElementById('bagBubbleCard').onclick = function() {
+      openNoteOverlay('bag');
     };
 
     // ========== 收藏 ==========

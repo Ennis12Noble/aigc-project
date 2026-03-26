@@ -717,10 +717,10 @@
       <div class="bottom-total-section">
         <div class="bottom-total-row">
           <span class="bottom-total-label">总计</span>
-          <span class="bottom-total-price" id="totalPrice">¥846</span><span class="bottom-total-decimal" id="totalDecimal"></span>
+          <span class="bottom-total-price" id="totalPrice"></span><span class="bottom-total-decimal" id="totalDecimal"></span>
         </div>
         <div class="bottom-discount-row">
-          <span class="bottom-discount-text" id="discountText">优惠 ¥230.00</span>
+          <span class="bottom-discount-text" id="discountText"></span>
           <span class="bottom-detail-text">明细</span>
           <span class="bottom-detail-arrow">&#9660;</span>
         </div>
@@ -853,6 +853,10 @@
       hatItem.querySelector('.item-variant-text').textContent = '卡其布色-M（56-58cm）';
       hatItem.querySelector('.item-price').textContent = '¥42';
       hatItem.querySelector('.item-price-decimal').textContent = '';
+
+      // 隐藏scene1帽子的"90天低价"标签
+      const lowPriceTag = hatItem.querySelector('.item-low-price');
+      if (lowPriceTag) lowPriceTag.style.display = 'none';
     }
 
     // 初始化计算

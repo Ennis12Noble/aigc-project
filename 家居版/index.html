@@ -956,10 +956,8 @@
     function handleRegen() {
       const input = document.getElementById('aiInput');
       const text = input.value.trim();
-      const keywords = ['毛毯', '黑白', '图案', '太阳花', '花朵', '针织'];
-      const matched = keywords.some(kw => text.includes(kw));
 
-      if (matched && currentScene !== 'scene2') {
+      if (text && currentScene !== 'scene2') {
         showToast('正在重新生成...');
         setTimeout(() => {
           switchScene('scene2');

@@ -891,10 +891,8 @@
     function handleRegen() {
       const input = document.getElementById('aiInput');
       const text = input.value.trim();
-      const keywords = ['渔夫帽', '帽子'];
-      const matched = keywords.some(kw => text.includes(kw));
 
-      if (matched && !hasRegenerated) {
+      if (text && !hasRegenerated) {
         hasRegenerated = true;
         showToast('正在重新生成...');
 

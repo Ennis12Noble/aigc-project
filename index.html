@@ -960,10 +960,8 @@
     function handleRegen() {
       const input = document.getElementById('aiInput');
       const text = input.value.trim();
-      const keywords = ['更大', '天幕', '超大', '适合4人的帐篷', '适合四人的帐篷', '3人', '4人', '5人'];
-      const matched = keywords.some(kw => text.includes(kw));
 
-      if (matched) {
+      if (text && currentScene !== 'scene2') {
         showToast('正在重新生成...');
         setTimeout(() => {
           switchScene('scene2');
